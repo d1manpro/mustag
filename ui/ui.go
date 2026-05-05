@@ -10,4 +10,6 @@ var (
 	Green  = color.New(color.FgGreen).SprintFunc()
 	Blue   = color.New(color.FgBlue).SprintFunc()
 	Yellow = color.New(color.FgYellow).SprintFunc()
+
+	Err = color.New(color.FgHiRed, color.Bold).SprintFunc()
 )
