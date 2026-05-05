@@ -8,10 +8,11 @@ import (
 )
 
 var (
-	keyColor   = color.New(color.FgGreen, color.Bold)
-	valueColor = color.New(color.FgWhite)
-	warnColor  = color.New(color.FgYellow, color.Bold)
-	errColor   = color.New(color.FgRed, color.Bold)
+	keyColor    = color.New(color.FgGreen, color.Bold)
+	valueColor  = color.New(color.FgWhite)
+	headerColor = color.New(color.FgHiCyan, color.Bold)
+	warnColor   = color.New(color.FgYellow, color.Bold)
+	errColor    = color.New(color.FgRed, color.Bold)
 )
 
 func KeyValue(key, value string) {
@@ -42,7 +43,7 @@ func Error(msg string) {
 }
 
 func Header(msg string) {
-	fmt.Fprintln(os.Stdout, color.New(color.Bold).Sprint(msg))
+	fmt.Fprintln(os.Stdout, headerColor.Sprintf("=== %s ===", msg))
 }
 
 func NewLine() {

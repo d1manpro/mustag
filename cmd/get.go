@@ -51,13 +51,14 @@ func runGetCmd(cmd *cobra.Command, args []string) {
 
 	full, _ := cmd.Flags().GetBool("full")
 	if full {
+		ui.Header(args[0])
 		tags.PrintFull(tag)
 		return
 	}
 
 	if len(fields) == 0 {
 		basic := tags.GetAll(tag)
-
+		ui.Header(args[0])
 		for _, v := range basic {
 			ui.KeyValue(v.Key, v.Value)
 		}
