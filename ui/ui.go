@@ -1,15 +1,50 @@
 package ui
 
-import "github.com/fatih/color"
+import (
+	"fmt"
+	"os"
+
+	"github.com/fatih/color"
+)
 
 var (
-	Bold   = color.New(color.Bold).SprintFunc()
-	Italic = color.New(color.Italic).SprintFunc()
-
-	Red    = color.New(color.FgRed).SprintFunc()
-	Green  = color.New(color.FgGreen).SprintFunc()
-	Blue   = color.New(color.FgBlue).SprintFunc()
-	Yellow = color.New(color.FgYellow).SprintFunc()
-
-	Err = color.New(color.FgHiRed, color.Bold).SprintFunc()
+	keyColor   = color.New(color.FgGreen, color.Bold)
+	valueColor = color.New(color.FgWhite)
+	warnColor  = color.New(color.FgYellow, color.Bold)
+	errColor   = color.New(color.FgRed, color.Bold)
 )
+
+func KeyValue(key, value string) {
+	if value == "" {
+		return
+	}
+
+	fmt.Fprintf(os.Stdout, "%s: %s\n",
+		keyColor.Sprint(key),
+		valueColor.Sprint(value),
+	)
+}
+
+func Raw(value string) {
+	fmt.Fprintln(os.Stdout, value)
+}
+
+func Info(msg string) {
+	fmt.Fprintln(os.Stdout, msg)
+}
+
+func Warn(msg string) {
+	fmt.Fprintln(os.Stderr, warnColor.Sprintf("WARN: %s", msg))
+}
+
+func Error(msg string) {
+	fmt.Fprintln(os.Stderr, errColor.Sprintf("ERROR: %s", msg))
+}
+
+func Header(msg string) {
+	fmt.Fprintln(os.Stdout, color.New(color.Bold).Sprint(msg))
+}
+
+func NewLine() {
+	fmt.Fprintln(os.Stdout)
+}

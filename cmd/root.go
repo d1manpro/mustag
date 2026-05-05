@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/d1manpro/mustag/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +16,7 @@ var rootCmd = &cobra.Command{
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, ui.Err("Error: "), err)
+		fmt.Fprintln(os.Stderr, "Error: ", err)
 	}
 }
 

@@ -7,7 +7,10 @@ require (
 	github.com/spf13/cobra v1.10.2
 )
 
+require golang.org/x/text v0.3.8 // indirect
+
 require (
+	github.com/bogem/id3v2/v2 v2.1.4
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
