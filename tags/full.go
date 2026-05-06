@@ -40,7 +40,7 @@ func printFrame(id string, f id3v2.Framer) {
 
 func trim(s string) string {
 	if len(s) > maxLyricsLen {
-		return s[:maxLyricsLen] + "... " + fmt.Sprintf("%d lines more", 1+strings.Count(s[maxLyricsLen:], "\n"))
+		return s[:maxLyricsLen] + "\n... " + fmt.Sprintf("%d lines more", 1+strings.Count(s[maxLyricsLen:], "\n"))
 	}
 	return s
 }
