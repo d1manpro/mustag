@@ -12,10 +12,6 @@ type Field struct {
 	Value string
 }
 
-func Open(path string) (*id3v2.Tag, error) {
-	return id3v2.Open(path, id3v2.Options{Parse: true})
-}
-
 func GetField(tag *id3v2.Tag, field string) (string, bool) {
 	switch field {
 	case "title":
