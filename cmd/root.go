@@ -6,10 +6,12 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "mustag",
-	Short: "ID3v2 tags editor",
-	Args:  cobra.ArbitraryArgs,
-	Run:   runRootCmd,
+	Use:           "mustag <file>",
+	Short:         "ID3v2 tags editor",
+	Args:          cobra.ArbitraryArgs,
+	RunE:          runRootCmd,
+	SilenceErrors: true,
+	SilenceUsage:  true,
 }
 
 func Execute() {
@@ -19,11 +21,9 @@ func Execute() {
 	}
 }
 
-func runRootCmd(cmd *cobra.Command, args []string) {
+func runRootCmd(cmd *cobra.Command, args []string) error {
 	if len(args) == 0 {
-		_ = cmd.Help()
-		return
+		return cmd.Help()
 	}
-
-	runGetCmd(cmd, args)
+	return runGetCmd(cmd, args)
 }

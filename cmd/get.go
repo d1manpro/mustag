@@ -25,7 +25,8 @@ Output behavior:
 	Example: `  mustag get song.mp3
   mustag get song.mp3 title
   mustag get song.mp3 title artist album`,
-	Run: runGetCmd,
+	Args: cobra.MinimumNArgs(1),
+	RunE: runGetCmd,
 }
 
 func init() {
@@ -33,19 +34,13 @@ func init() {
 	rootCmd.AddCommand(getCmd)
 }
 
-func runGetCmd(cmd *cobra.Command, args []string) {
-	if len(args) == 0 {
-		ui.Error("file is required")
-		return
-	}
-
+func runGetCmd(cmd *cobra.Command, args []string) error {
 	file := args[0]
 	fields := args[1:]
 
 	tag, err := tags.Open(file)
 	if err != nil {
-		ui.Error(err.Error())
-		return
+		return fmt.Errorf("could not open file: %w", err)
 	}
 	defer tag.Close()
 
@@ -53,7 +48,7 @@ func runGetCmd(cmd *cobra.Command, args []string) {
 	if full {
 		ui.Header(args[0])
 		tags.PrintFull(tag)
-		return
+		return nil
 	}
 
 	if len(fields) == 0 {
@@ -62,18 +57,17 @@ func runGetCmd(cmd *cobra.Command, args []string) {
 		for _, v := range basic {
 			ui.KeyValue(v.Key, v.Value)
 		}
-		return
+		return nil
 	}
 
 	if len(fields) == 1 {
 		val, ok := tags.GetField(tag, fields[0])
 		if !ok {
-			ui.Error("unknown field: " + fields[0])
-			return
+			return fmt.Errorf("unknown field: %s", fields[0])
 		}
 
 		fmt.Println(val)
-		return
+		return nil
 	}
 
 	for _, f := range fields {
@@ -85,4 +79,5 @@ func runGetCmd(cmd *cobra.Command, args []string) {
 
 		ui.KeyValue(f, val)
 	}
+	return nil
 }
