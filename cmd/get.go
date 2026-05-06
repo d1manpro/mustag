@@ -30,7 +30,7 @@ Output behavior:
 }
 
 func init() {
-	getCmd.Flags().Bool("full", false, "Show all raw ID3 frames")
+	getCmd.Flags().BoolP("full", "f", false, "Show all raw ID3 frames")
 	rootCmd.AddCommand(getCmd)
 }
 
