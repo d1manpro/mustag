@@ -16,10 +16,8 @@ var setCmd = &cobra.Command{
 	Long: `Set or update ID3v2 metadata tags in an audio file.
 
 Supports standard tags like title, artist, album, genre, year, track number, disk number,
-as well as lyrics, cover art, and custom frames by ID.
-
-Examples:
-  mustag set song.mp3 -t "Title" -a "Artist"
+as well as lyrics, cover art, and custom frames by ID.`,
+	Example: `  mustag set song.mp3 -t "Title" -a "Artist"
   mustag set song.mp3 -y 2024 -n 1
   mustag set song.mp3 --lyrics lyrics.txt --cover cover.jpg
   mustag set song.mp3 --custom TXXX:MyTag:value`,
@@ -66,7 +64,7 @@ func runSetCmd(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("save changes error: %w", err)
 	}
 
-	ui.Info("File tags successfully updated")
+	ui.Info("Tags successfully updated")
 
 	return nil
 }

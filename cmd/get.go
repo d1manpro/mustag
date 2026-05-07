@@ -19,9 +19,9 @@ You can optionally specify one or more fields to filter output.
 Common fields include: artist, title, album, year, genre, track.
 
 Output behavior:
-- Single field → raw value (useful for scripts)
-- Multiple fields → formatted output
-- No fields → full formatted tag list`,
+- Single field -> raw value (useful for scripts)
+- Multiple fields -> formatted output
+- No fields -> full formatted tag list`,
 	Example: `  mustag get song.mp3
   mustag get song.mp3 title
   mustag get song.mp3 title artist album`,
