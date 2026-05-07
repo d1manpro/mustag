@@ -20,7 +20,7 @@ func KeyValue(key, value string) {
 		return
 	}
 
-	fmt.Fprintf(os.Stdout, "%s: %s\n",
+	fmt.Fprintf(os.Stdout, "%s:\t%s\n",
 		keyColor.Sprint(key),
 		valueColor.Sprint(value),
 	)
