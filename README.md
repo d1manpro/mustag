@@ -85,6 +85,7 @@ Available commands:
 | ------- | --------------- |
 | `get`   | Show metadata   |
 | `set`   | Update metadata |
+| `lyrics`| Lyrics editor   |
 
 ---
 
@@ -206,6 +207,44 @@ mustag set song.mp3 \
 
 ---
 
+## Lyrics Editor
+
+Interactive lyrics editing mode using external editor.
+
+```bash
+mustag lyrics song.mp3
+```
+
+Open lyrics in default editor (`$EDITOR`) or fallback to `vi`:
+
+```bash
+mustag lyrics -e nvim song.mp3
+```
+
+### Behavior
+
+* Loads embedded lyrics into temporary file
+* Opens external editor
+* If content is unchanged → no update
+* If content is empty → lyrics tag is removed
+* Otherwise → lyrics are updated and saved back to file
+
+### Examples
+
+```bash
+mustag lyrics song.mp3
+```
+
+```bash
+mustag lyrics -e nvim song.mp3
+```
+
+```bash
+EDITOR=vim mustag lyrics song.mp3
+```
+
+---
+
 ## Flags
 
 ### `get`
@@ -229,3 +268,9 @@ mustag set song.mp3 \
 | `-l, --lyrics`   | Load lyrics from file |
 | `-c, --cover`    | Load cover image      |
 | `--custom`       | Add custom ID3 frame  |
+
+### `lyrics`
+
+| Flag           | Description         |
+| ------------   | ------------------- |
+| `-e, --editor` | Set external editor |
