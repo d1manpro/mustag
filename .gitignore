@@ -1,2 +1,5 @@
 build/
 *.mp3
+mustag
+# Added by goreleaser init:
+dist/
