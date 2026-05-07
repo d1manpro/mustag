@@ -66,7 +66,7 @@ func runGetCmd(cmd *cobra.Command, args []string) error {
 			return fmt.Errorf("unknown field: %s", fields[0])
 		}
 
-		fmt.Println(val)
+		ui.Info(val)
 		return nil
 	}
 
