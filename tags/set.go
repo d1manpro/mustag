@@ -18,7 +18,7 @@ func SetStringFrame(tag *id3v2.Tag, k, v string) error {
 	case "album":
 		tag.SetAlbum(v)
 	case "album-artist":
-		tag.AddTextFrame(tag.CommonID("Album artist"), tag.DefaultEncoding(), v)
+		tag.AddTextFrame("TPE2", tag.DefaultEncoding(), v)
 	case "genre":
 		tag.SetGenre(v)
 	default:
