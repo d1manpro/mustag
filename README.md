@@ -8,45 +8,47 @@ Written in Go using Cobra and id3v2 library.
 ![License](https://img.shields.io/github/license/d1manpro/mustag)
 ![Release](https://img.shields.io/github/v/release/d1manpro/mustag)
 
+---
+
 ## Features
 
-* View ID3v2 metadata
-* Edit standard tags:
-  * title
-  * artist
-  * album
-  * album artist
-  * genre
-  * year
-  * track number
-  * disk number
-* Add lyrics from file
-* Embed cover art
-* Add custom ID3 frames
-* Show all raw ID3 frames
-* Script-friendly output
+- Read ID3v2 metadata from audio files
+- Edit standard ID3 tags:
+  - title
+  - artist
+  - album
+  - album artist
+  - genre
+  - year
+  - track number
+  - disk number
+- Add and edit embedded lyrics
+- Embed and replace cover art
+- Manage custom ID3 frames (TXXX, COMM, etc.)
+- View raw ID3 frames
+- Remove specific or all tags from files
+- CLI-friendly output for scripting and automation
 
 ---
 
-# Installation
+## Installation
 
-## Download Binary
+### Download binary
 
 Prebuilt binaries are available on the [github releases page](https://github.com/d1manpro/mustag/releases).
 
-### Linux amd64
+#### Linux amd64 example:
 
 ```bash
 curl -LO https://github.com/d1manpro/mustag/releases/latest/download/mustag-linux-amd64.tar.gz
 
 tar -xzf mustag-linux-amd64.tar.gz
-
 chmod +x mustag
 
 sudo install -m755 mustag /usr/local/bin/mustag
-```
+````
 
-Verify installation:
+Verify:
 
 ```bash
 mustag --version
@@ -54,10 +56,11 @@ mustag --version
 
 ---
 
-## Build From Source
+### Build from source
 
 Requirements:
-- Go 1.26+
+
+* Go 1.26+
 
 ```bash
 git clone https://github.com/d1manpro/mustag.git
@@ -71,27 +74,29 @@ Optional install:
 ```bash
 sudo install -m755 mustag /usr/local/bin/mustag
 ```
+
 ---
 
-# Usage
+## Usage
 
 ```bash
-mustag [command]
+mustag <command>
 ```
 
-Available commands:
+### Commands
 
-| Command | Description     |
-| ------- | --------------- |
-| `get`   | Show metadata   |
-| `set`   | Update metadata |
-| `lyrics`| Lyrics editor   |
+| Command          | Description     |
+| ---------------- | --------------- |
+| get (g)          | Show metadata   |
+| set (s)          | Update metadata |
+| remove (rm)      | Remove metadata |
+| lyrics (l, lyr)  | Edit lyrics     |
 
 ---
 
-## Get Tags
+## Get tags
 
-Show all basic metadata:
+Show metadata:
 
 ```bash
 mustag get song.mp3
@@ -110,39 +115,13 @@ cover:  1 image(s): image (image/jpeg, 89452 bytes)
 lyrics: 1 item(s), 43 lines
 ```
 
----
-
-### Get Specific Fields
-
-Single field:
-
-```bash
-mustag get song.mp3 title
-```
-
-Output:
-
-```text
-Numb
-```
-
-Multiple fields:
+### Specific fields
 
 ```bash
 mustag get song.mp3 title artist album
 ```
 
-Output:
-
-```text
-title:  Numb
-artist: Linkin Park
-album:  Meteora
-```
-
----
-
-### Get All Fields
+### Full output
 
 ```bash
 mustag get song.mp3 --full
@@ -150,9 +129,7 @@ mustag get song.mp3 --full
 
 ---
 
-## Set Tags
-
-Set basic tags:
+## Set tags
 
 ```bash
 mustag set song.mp3 \
@@ -162,115 +139,148 @@ mustag set song.mp3 \
   -y 2003
 ```
 
+### Options
 
-### Set Album Artist
+* album artist
 
 ```bash
 mustag set song.mp3 --album-artist "Various Artists"
 ```
 
-
-### Set Track and Disk Numbers
+* track and disk
 
 ```bash
 mustag set song.mp3 -n 13 -d 1
 ```
 
-
-### Add Lyrics
+* lyrics
 
 ```bash
 mustag set song.mp3 --lyrics lyrics.txt
 ```
 
-
-### Add Cover Art
+* cover
 
 ```bash
 mustag set song.mp3 --cover cover.jpg
 ```
 
-
-### Add Custom Frames
-
-```bash
-mustag set song.mp3 --custom TXXX:MyValue
-```
-
-Multiple custom frames:
+* custom frames
 
 ```bash
-mustag set song.mp3 \
-  --custom TXXX:Value1 \
-  --custom COMM:Hello
+mustag set song.mp3 --custom TXXX:MyValue --custom COMM:Hello
 ```
 
 ---
 
-## Lyrics Editor
+## Remove tags
 
-Interactive lyrics editing mode using external editor.
+```bash
+mustag remove song.mp3 -t -g
+```
+
+### Remove all
+
+```bash
+mustag remove song.mp3 --all
+```
+
+### Specific fields
+
+```bash
+mustag remove song.mp3 \
+  --title \
+  --artist \
+  --album \
+  --lyrics \
+  --cover
+```
+
+### Custom frames
+
+```bash
+mustag remove song.mp3 --custom TXXX --custom COMM
+```
+
+---
+
+## Lyrics editor
 
 ```bash
 mustag lyrics song.mp3
 ```
 
-Open lyrics in default editor (`$EDITOR`) or fallback to `vi`:
+Use custom editor:
 
 ```bash
 mustag lyrics -e nvim song.mp3
 ```
 
-### Behavior
-
-* Loads embedded lyrics into temporary file
-* Opens external editor
-* If content is unchanged → no update
-* If content is empty → lyrics tag is removed
-* Otherwise → lyrics are updated and saved back to file
-
-### Examples
-
-```bash
-mustag lyrics song.mp3
-```
-
-```bash
-mustag lyrics -e nvim song.mp3
-```
+or:
 
 ```bash
 EDITOR=vim mustag lyrics song.mp3
 ```
 
+### Behavior
+
+* Opens lyrics in temp file
+* Uses `$EDITOR` or fallback `vi`
+* Empty content → remove tag
+* Unchanged → no update
+* Changed → save back
+
 ---
 
 ## Flags
 
-### `get`
+### get
 
-| Flag         | Description             |
-| ------------ | ----------------------- |
-| `-f, --full` | Show all raw ID3 frames |
+| Flag       | Description     |
+| ---------- | --------------- |
+| -f, --full | Show raw frames |
 
-### `set`
+---
 
-| Flag             | Description           |
-| ---------------- | --------------------- |
-| `-t, --title`    | Set title             |
-| `-a, --artist`   | Set artist            |
-| `-A, --album`    | Set album             |
-| `--album-artist` | Set album artist      |
-| `-g, --genre`    | Set genre             |
-| `-y, --year`     | Set year              |
-| `-n, --number`   | Set track number      |
-| `-d, --disk`     | Set disk number       |
-| `-l, --lyrics`   | Load lyrics from file |
-| `-c, --cover`    | Load cover image      |
-| `--custom`       | Add custom ID3 frame  |
+### set
 
-### `lyrics`
+| Flag           | Description      |
+| -------------- | ---------------- |
+| -t, --title    | Set title        |
+| -a, --artist   | Set artist       |
+| -A, --album    | Set album        |
+| --album-artist | Set album artist |
+| -g, --genre    | Set genre        |
+| -y, --year     | Set year         |
+| -n, --number   | Track number     |
+| -d, --disk     | Disk number      |
+| -l, --lyrics   | Lyrics file      |
+| -c, --cover    | Cover image      |
+| --custom       | Custom frame     |
+
+---
+
+### remove
 
 | Flag           | Description         |
-| ------------   | ------------------- |
-| `-e, --editor` | Set external editor |
+| -------------- | ------------------- |
+| -t, --title    | Remove title        |
+| -a, --artist   | Remove artist       |
+| -A, --album    | Remove album        |
+| --album-artist | Remove album artist |
+| -g, --genre    | Remove genre        |
+| -y, --year     | Remove year         |
+| -n, --number   | Remove track        |
+| -d, --disk     | Remove disk         |
+| -l, --lyrics   | Remove lyrics       |
+| -c, --cover    | Remove cover        |
+| --custom       | Remove frame        |
+| --all          | Remove all          |
+
+---
+
+### lyrics
+
+| Flag         | Description     |
+| ------------ | --------------- |
+| -e, --editor | External editor |
