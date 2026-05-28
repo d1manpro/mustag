@@ -77,13 +77,6 @@ func applyFlags(tag *id3v2.Tag, cmd *cobra.Command) error {
 		}
 	}
 
-	if cmd.Flags().Changed("title") {
-		v, _ := cmd.Flags().GetString("title")
-		if e := tags.SetStringFrame(tag, "title", v); e != nil {
-			return e
-		}
-	}
-
 	if cmd.Flags().Changed("artist") {
 		v, _ := cmd.Flags().GetString("artist")
 		if e := tags.SetStringFrame(tag, "artist", v); e != nil {
