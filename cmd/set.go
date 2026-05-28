@@ -11,8 +11,9 @@ import (
 )
 
 var setCmd = &cobra.Command{
-	Use:   "set <file>",
-	Short: "Update ID3v2 metadata tags in audio file",
+	Use:     "set <file>",
+	Aliases: []string{"s"},
+	Short:   "Update ID3v2 metadata tags in audio file",
 	Long: `Set or update ID3v2 metadata tags in an audio file.
 
 Supports standard tags like title, artist, album, genre, year, track number, disk number,

@@ -14,8 +14,9 @@ import (
 )
 
 var lyricsCmd = &cobra.Command{
-	Use:   "lyrics <file>",
-	Short: "Edit embedded lyrics in audio file",
+	Use:     "lyrics <file>",
+	Aliases: []string{"l"},
+	Short:   "Edit embedded lyrics in audio file",
 	Long: `Open embedded lyrics from audio file in external editor, allow modification or deletion, and write changes back to tag.
 
 If editor returns unchanged content, no update is performed.

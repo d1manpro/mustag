@@ -9,8 +9,9 @@ import (
 )
 
 var getCmd = &cobra.Command{
-	Use:   "get <file> [field...]",
-	Short: "Show metadata of an audio file",
+	Aliases: []string{"g"},
+	Use:     "get <file> [field...]",
+	Short:   "Show metadata of an audio file",
 	Long: `Show ID3v2 metadata of the specified file.
 
 If no fields are provided, all available tags are displayed.

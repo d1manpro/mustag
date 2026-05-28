@@ -10,8 +10,9 @@ import (
 )
 
 var removeCmd = &cobra.Command{
-	Use:   "remove <file>",
-	Short: "Remove ID3v2 metadata tags in audio file",
+	Use:     "remove <file>",
+	Aliases: []string{"rm"},
+	Short:   "Remove ID3v2 metadata tags in audio file",
 	Long: `Remove ID3v2 metadata tags in an audio file.
 
 Supports standard tags like title, artist, album, genre, year, track number, disk number,
