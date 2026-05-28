@@ -24,19 +24,21 @@ as well as lyrics, cover art, and custom frames by ID.`,
 }
 
 func init() {
-	removeCmd.Flags().BoolP("title", "t", false, "Set Title tag (TIT2)")
-	removeCmd.Flags().BoolP("artist", "a", false, "Set Artist tag (TPE1)")
-	removeCmd.Flags().BoolP("album", "A", false, "Set Album tag (TALB)")
-	removeCmd.Flags().Bool("album-artist", false, "Set Album-Artist tag (TPE2)")
-	removeCmd.Flags().BoolP("genre", "g", false, "Set Genre tag (TCON)")
-	removeCmd.Flags().BoolP("lyrics", "l", false, "Load Lyrics from file (USLT)")
-	removeCmd.Flags().BoolP("cover", "c", false, "Load Cover image (APIC)")
+	removeCmd.Flags().BoolP("title", "t", false, "Remove Title tag (TIT2)")
+	removeCmd.Flags().BoolP("artist", "a", false, "Remove Artist tag (TPE1)")
+	removeCmd.Flags().BoolP("album", "A", false, "Remove Album tag (TALB)")
+	removeCmd.Flags().Bool("album-artist", false, "Remove Album-Artist tag (TPE2)")
+	removeCmd.Flags().BoolP("genre", "g", false, "Remove Genre tag (TCON)")
+	removeCmd.Flags().BoolP("lyrics", "l", false, "Remove Lyrics (USLT)")
+	removeCmd.Flags().BoolP("cover", "c", false, "Remove Cover image (APIC)")
 
-	removeCmd.Flags().BoolP("year", "y", false, "Set Year tag (TYER)")
-	removeCmd.Flags().BoolP("number", "n", false, "Set Track Number tag (TRCK)")
-	removeCmd.Flags().BoolP("disk", "d", false, "Set Disk tag (TPOS)")
+	removeCmd.Flags().BoolP("year", "y", false, "Remove Year tag (TYER)")
+	removeCmd.Flags().BoolP("number", "n", false, "Remove Track Number tag (TRCK)")
+	removeCmd.Flags().BoolP("disk", "d", false, "Remove Disk tag (TPOS)")
 
 	removeCmd.Flags().StringArrayVar(&custom, "custom", nil, "Remove Custom tag by ID")
+
+	removeCmd.Flags().Bool("all", false, "Remove All tags")
 
 	rootCmd.AddCommand(removeCmd)
 }
@@ -66,6 +68,10 @@ func runRemoveCmd(cmd *cobra.Command, args []string) error {
 }
 
 func deleteFlags(tag *id3v2.Tag, cmd *cobra.Command) error {
+	if cmd.Flags().Changed("all") {
+		tags.DeleteAllFrames(tag)
+	}
+
 	if cmd.Flags().Changed("title") {
 		if e := tags.DeleteFrame(tag, "title"); e != nil {
 			return e

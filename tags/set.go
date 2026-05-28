@@ -79,6 +79,10 @@ func DeleteFrame(tag *id3v2.Tag, k string) error {
 	return nil
 }
 
+func DeleteAllFrames(tag *id3v2.Tag) {
+	tag.DeleteAllFrames()
+}
+
 func SetLyrics(tag *id3v2.Tag, lyricsPath string) error {
 	data, err := os.ReadFile(lyricsPath)
 	if err != nil {
