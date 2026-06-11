@@ -33,15 +33,33 @@ func GetLyrics(tag *id3v2.Tag) (string, error) {
 	return "", nil
 }
 
-func UpdateLyrics(tag *id3v2.Tag, lyrics string) error {
+// EncodingFor returns the encoding to use for s.
+// If preferred cannot represent s (Latin-1 with non-ASCII runes),
+// it falls back to UTF-8 and returns the first unsupported rune with its line/col (1-based).
+func EncodingFor(preferred id3v2.Encoding, s string) (enc id3v2.Encoding, badRune rune, line, col int) {
+	if preferred.Key != 0 {
+		return preferred, 0, 0, 0
+	}
+	for ln, lineStr := range strings.Split(s, "\n") {
+		for cl, r := range lineStr {
+			if r > 0xFF {
+				return id3v2.EncodingUTF8, r, ln + 1, cl + 1
+			}
+		}
+	}
+	return preferred, 0, 0, 0
+}
+
+func UpdateLyrics(tag *id3v2.Tag, lyrics string) (rune, int, int, error) {
+	enc, badRune, line, col := EncodingFor(tag.DefaultEncoding(), lyrics)
 	tag.DeleteFrames("USLT")
 	tag.AddUnsynchronisedLyricsFrame(id3v2.UnsynchronisedLyricsFrame{
-		Encoding:          tag.DefaultEncoding(),
+		Encoding:          enc,
 		Language:          "eng",
 		ContentDescriptor: "",
 		Lyrics:            lyrics,
 	})
-	return nil
+	return badRune, line, col, nil
 }
 
 func DeleteLyrics(tag *id3v2.Tag) {

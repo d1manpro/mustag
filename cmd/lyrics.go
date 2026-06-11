@@ -70,8 +70,12 @@ func runLyricsCmd(cmd *cobra.Command, args []string) error {
 		tags.DeleteLyrics(tag)
 		status = ("New lyrics is empty. Tag was deleted")
 	} else {
-		if err = tags.UpdateLyrics(tag, newLyrics); err != nil {
+		badRune, line, col, err := tags.UpdateLyrics(tag, newLyrics)
+		if err != nil {
 			return fmt.Errorf("update lyrics error: %w", err)
+		}
+		if badRune != 0 {
+			ui.Warn(fmt.Sprintf("character %q (U+%04X) at line %d, col %d is not supported by the tag encoding, saving as UTF-8", badRune, badRune, line, col))
 		}
 		status = "Lyrics successfully updated"
 	}
