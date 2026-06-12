@@ -70,6 +70,11 @@ func runLyricsCmd(cmd *cobra.Command, args []string) error {
 		tags.DeleteLyrics(tag)
 		status = ("New lyrics is empty. Tag was deleted")
 	} else {
+		normalized := tags.NormalizeLyrics(newLyrics)
+		if normalized != newLyrics {
+			ui.Info("Invalid characters were auto-replaced")
+			newLyrics = normalized
+		}
 		badRune, line, col, err := tags.UpdateLyrics(tag, newLyrics)
 		if err != nil {
 			return fmt.Errorf("update lyrics error: %w", err)

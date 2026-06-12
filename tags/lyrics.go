@@ -8,6 +8,27 @@ import (
 	"github.com/bogem/id3v2/v2"
 )
 
+var charReplacer = strings.NewReplacer(
+	// Apostrophe variants → standard apostrophe
+	"’", "'", // RIGHT SINGLE QUOTATION MARK
+	"‘", "'", // LEFT SINGLE QUOTATION MARK
+	"‛", "'", // SINGLE HIGH-REVERSED-9 QUOTATION MARK
+	"ʼ", "'", // MODIFIER LETTER APOSTROPHE
+	"ʻ", "'", // MODIFIER LETTER TURNED COMMA
+	"ˈ", "'", // MODIFIER LETTER VERTICAL LINE
+	"´", "'", // ACUTE ACCENT
+	"`", "'", // GRAVE ACCENT
+	"′", "'", // PRIME
+	// Line variants - standart dash
+	"—", "-",
+	// Space variants - standart space
+	" ", " ",
+)
+
+func NormalizeLyrics(s string) string {
+	return charReplacer.Replace(s)
+}
+
 var ManyLyricsErr = errors.New("file have many lyrics flags")
 
 func GetLyrics(tag *id3v2.Tag) (string, error) {
