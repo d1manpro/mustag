@@ -9,7 +9,7 @@ import (
 )
 
 var charReplacer = strings.NewReplacer(
-	// Apostrophe variants → standard apostrophe
+	// Apostrophe variants -> standard apostrophe
 	"’", "'", // RIGHT SINGLE QUOTATION MARK
 	"‘", "'", // LEFT SINGLE QUOTATION MARK
 	"‛", "'", // SINGLE HIGH-REVERSED-9 QUOTATION MARK
@@ -19,10 +19,45 @@ var charReplacer = strings.NewReplacer(
 	"´", "'", // ACUTE ACCENT
 	"`", "'", // GRAVE ACCENT
 	"′", "'", // PRIME
-	// Line variants - standart dash
-	"—", "-",
-	// Space variants - standart space
-	" ", " ",
+
+	// Double quote variants -> standard double quote
+	"“", "\"", // LEFT DOUBLE QUOTATION MARK
+	"”", "\"", // RIGHT DOUBLE QUOTATION MARK
+	"„", "\"", // DOUBLE LOW-9 QUOTATION MARK
+	"‟", "\"", // DOUBLE HIGH-REVERSED-9 QUOTATION MARK
+	"«", "\"", // LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+	"»", "\"", // RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+	"〝", "\"", // REVERSED DOUBLE PRIME QUOTATION MARK
+	"〞", "\"", // DOUBLE PRIME QUOTATION MARK
+	"＂", "\"", // FULLWIDTH QUOTATION MARK
+	"″", "\"", // DOUBLE PRIME
+
+	// Dash variants -> standard dash
+	"—", "-", // EM DASH
+	"–", "-", // EN DASH
+	"―", "-", // HORIZONTAL BAR
+	"−", "-", // MINUS SIGN
+
+	// Space variants -> standard space
+	" ", " ", // MEDIUM MATHEMATICAL SPACE
+	"\u00A0", " ", // NO-BREAK SPACE
+	"\u2000", " ",
+	"\u2001", " ",
+	"\u2002", " ",
+	"\u2003", " ",
+	"\u2004", " ",
+	"\u2005", " ",
+	"\u2006", " ",
+	"\u2007", " ",
+	"\u2008", " ",
+	"\u2009", " ",
+	"\u200A", " ",
+	"\u202F", " ",
+	"\u205F", " ",
+	"\u3000", " ",
+
+	// 3 dots -> 3 separated dots
+	"…", "...",
 )
 
 func NormalizeLyrics(s string) string {
