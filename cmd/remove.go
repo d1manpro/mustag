@@ -125,7 +125,7 @@ func deleteFlags(tag *id3v2.Tag, cmd *cobra.Command) error {
 	}
 
 	if cmd.Flags().Changed("cover") {
-		tags.DeleteLyrics(tag)
+		tags.DeleteImages(tag)
 	}
 
 	if cmd.Flags().Changed("custom") {

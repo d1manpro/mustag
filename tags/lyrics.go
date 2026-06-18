@@ -29,8 +29,12 @@ var charReplacer = strings.NewReplacer(
 	"»", "\"", // RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
 	"〝", "\"", // REVERSED DOUBLE PRIME QUOTATION MARK
 	"〞", "\"", // DOUBLE PRIME QUOTATION MARK
+	"〟", "\"", // LOW DOUBLE PRIME QUOTATION MARK
 	"＂", "\"", // FULLWIDTH QUOTATION MARK
 	"″", "\"", // DOUBLE PRIME
+	"‶", "\"", // REVERSED DOUBLE PRIME
+	"❝", "\"", // HEAVY DOUBLE TURNED COMMA QUOTATION MARK ORNAMENT
+	"❞", "\"", // HEAVY DOUBLE COMMA QUOTATION MARK ORNAMENT
 
 	// Dash variants -> standard dash
 	"—", "-", // EM DASH
@@ -116,8 +120,4 @@ func UpdateLyrics(tag *id3v2.Tag, lyrics string) (rune, int, int, error) {
 		Lyrics:            lyrics,
 	})
 	return badRune, line, col, nil
-}
-
-func DeleteLyrics(tag *id3v2.Tag) {
-	tag.DeleteFrames("USLT")
 }

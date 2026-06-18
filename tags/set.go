@@ -55,34 +55,6 @@ func SetFrameByID(tag *id3v2.Tag, id, v string) error {
 	return nil
 }
 
-func DeleteFrame(tag *id3v2.Tag, k string) error {
-	switch k {
-	case "title":
-		tag.DeleteFrames("TIT2")
-	case "artist":
-		tag.DeleteFrames("TIT2")
-	case "album":
-		tag.DeleteFrames("TIT2")
-	case "album-artist":
-		tag.DeleteFrames("TIT2")
-	case "genre":
-		tag.DeleteFrames("TIT2")
-	case "year":
-		tag.DeleteFrames("TYER")
-	case "number":
-		tag.DeleteFrames("TRCK")
-	case "disk":
-		tag.DeleteFrames("TPOS")
-	default:
-		return fmt.Errorf("unknown string tag: %s", k)
-	}
-	return nil
-}
-
-func DeleteAllFrames(tag *id3v2.Tag) {
-	tag.DeleteAllFrames()
-}
-
 func SetLyrics(tag *id3v2.Tag, lyricsPath string) error {
 	data, err := os.ReadFile(lyricsPath)
 	if err != nil {
@@ -106,11 +78,12 @@ func SetCover(tag *id3v2.Tag, coverPath string) error {
 
 	mime := http.DetectContentType(data)
 
+	tag.DeleteFrames("APIC")
 	tag.AddAttachedPicture(id3v2.PictureFrame{
 		Encoding:    tag.DefaultEncoding(),
 		MimeType:    mime,
 		PictureType: id3v2.PTFrontCover,
-		Description: "Cover",
+		Description: "",
 		Picture:     data,
 	})
 
